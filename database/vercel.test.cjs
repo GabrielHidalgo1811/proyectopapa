@@ -62,3 +62,13 @@ test('Vercel JSON parsing accepts already parsed bodies without re-reading an ex
  }
  await assert.rejects(readJsonBody({body:{email:'x'.repeat(13000)}},12000),e=>e.status===413);
 });
+test('serverless login handles requests without a network socket and surfaces storage configuration errors safely',async()=>{
+ const store={rate:async()=>true};
+ const fetchFn=async()=>Response.json({},{status:400});
+ const handler=createVercelHandler({env,fetchFn,sessionStore:store});
+ const req={headers:{host:'proyectopapa.vercel.app','content-type':'application/json',origin:'https://proyectopapa.vercel.app'},url:'/api/auth/login',method:'POST',body:{email:'admin@example.com',password:'incorrect'}};
+ let status,body;const res={setHeader:()=>{},writeHead:s=>status=s,end:text=>body=JSON.parse(text)};
+ await handler(req,res);assert.equal(status,401);assert(body.error.includes('Correo o contraseña'));
+ const {createSupabaseSessionStore}=require('./session-store.cjs');const broken=createSupabaseSessionStore({url:env.NEXT_PUBLIC_SUPABASE_URL,key:'never-expose-this',fetchFn:async()=>Response.json({secret:'never-expose-this'},{status:401})});
+ await assert.rejects(broken.rate('a'.repeat(64)),error=>error.publicMessage.includes('SUPABASE_SERVICE_ROLE_KEY')&&!JSON.stringify(error).includes('never-expose-this'));
+});

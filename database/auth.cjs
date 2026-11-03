@@ -65,7 +65,7 @@ function createAuth({url,publishableKey,serviceKey,filename,mail={},fetchFn=fetc
   return {...row,...tokens,user:{id:user.id,email:user.email}};
  }
  async function body(req){if(req.headers['content-type']?.split(';')[0]!=='application/json')throw new AuthError('Se requiere JSON.',415);try{const data=await readJsonBody(req,12000);if(!data||typeof data!=='object'||Array.isArray(data))throw Error();return data}catch(e){throw new AuthError(e.message||'Solicitud inválida.',e.status||400)}}
- async function rate(req){if(store.rate){if(!await store.rate(digest(req.socket.remoteAddress||'unknown')))throw new AuthError('Demasiados intentos. Espera 15 minutos antes de volver a intentar.',429);return}const id=req.socket.remoteAddress;const cutoff=now()-15*60*1000;for(const [k,v] of rates)if(v[0]<cutoff)rates.delete(k);const list=(rates.get(id)||[]).filter(t=>t>=cutoff);if(list.length>=12)throw new AuthError('Demasiados intentos. Espera 15 minutos antes de volver a intentar.',429);list.push(now());rates.set(id,list)}
+ async function rate(req){const id=req.socket?.remoteAddress||'unknown';if(store.rate){if(!await store.rate(digest(id)))throw new AuthError('Demasiados intentos. Espera 15 minutos antes de volver a intentar.',429);return}const cutoff=now()-15*60*1000;for(const [k,v] of rates)if(v[0]<cutoff)rates.delete(k);const list=(rates.get(id)||[]).filter(t=>t>=cutoff);if(list.length>=12)throw new AuthError('Demasiados intentos. Espera 15 minutos antes de volver a intentar.',429);list.push(now());rates.set(id,list)}
  async function handle(req,res,pathname){if(!pathname.startsWith('/api/auth/'))return false;
   try{
    if(pathname==='/api/auth/session'&&req.method==='GET'){const s=await session(req);if(!s){cookie(req,res,'');reply(res,401,{error:'Inicia sesión para continuar.'})}else reply(res,200,{user:s.user,expiresAt:s.expires,remember:Boolean(s.remember)});return true}
@@ -104,7 +104,7 @@ function createAuth({url,publishableKey,serviceKey,filename,mail={},fetchFn=fetc
     await store.deleteUser(s.user_id);cookie(req,res,'');cookie(req,res,'',false,'recovery');reply(res,200,{ok:true});return true;
    }
    throw new AuthError('No encontrado.',404);
-  }catch(e){reply(res,e.status||503,{error:e instanceof AuthError?e.message:'No se pudo completar la operación. Inténtalo nuevamente.'});return true}
+  }catch(e){if(!(e instanceof AuthError))console.error('Fallo de acceso',{ruta:pathname,codigo:e.code||e.name,status:e.status||503});reply(res,e.status||503,{error:e instanceof AuthError?e.message:e.publicMessage||'No se pudo completar la operación. Inténtalo nuevamente.'});return true}
  }
  return {handle,authorize:req=>session(req),close:()=>store.close()};
 }

@@ -4,8 +4,8 @@ const {createAuth}=require('./database/auth.cjs');
 const {createSupabaseSessionStore}=require('./database/session-store.cjs');
 const {openSupabaseStore}=require('./database/supabase-store.cjs');
 function createVercelHandler({env=process.env,fetchFn=fetch,sessionStore}={}){
- const url=env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/,'');
- const publishableKey=env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,key=env.SUPABASE_SERVICE_ROLE_KEY;
+ const url=env.NEXT_PUBLIC_SUPABASE_URL?.trim().replace(/\/$/,'');
+ const publishableKey=env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY?.trim(),key=env.SUPABASE_SERVICE_ROLE_KEY?.trim();
  if(!url||!publishableKey||!key)throw Error('Faltan las variables de Supabase en Vercel.');
  if(env.ANTONINI_STORAGE&&env.ANTONINI_STORAGE!=='supabase')throw Error('ANTONINI_STORAGE debe ser supabase en Vercel.');
  const origins=[...new Set(['https://proyectopapa.vercel.app',env.VERCEL_URL&&'https://'+env.VERCEL_URL,env.VERCEL_PROJECT_PRODUCTION_URL&&'https://'+env.VERCEL_PROJECT_PRODUCTION_URL,env.APP_URL].filter(Boolean).map(value=>new URL(value).origin))];
