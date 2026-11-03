@@ -1,5 +1,7 @@
 # Antonini · Gestión de cobros
 
+**Vercel:** configuración, variables y migración de sesiones en [VERCEL.md](VERCEL.md). En una base existente, aplicar `database/09_sesiones_vercel.sql` antes de usar el login publicado. Las rutas del servidor se despliegan desde `api/`; no basta con subir solo `dist/`.
+
 Aplicación para administrar habitaciones de Casa PAC, inquilinos, préstamos, avales y pagos. Incluye login con Supabase Authentication, sesiones privadas en el servidor y almacenamiento en Supabase o SQLite. No se crean pagos de demostración automáticamente.
 
 ## Ejecutar

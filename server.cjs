@@ -4,6 +4,7 @@ const path = require('node:path');
 const { openStore, DataError } = require('./database/store.cjs');
 const { openSupabaseStore } = require('./database/supabase-store.cjs');
 const {createAuth}=require('./database/auth.cjs');
+const {readJsonBody}=require('./database/request.cjs');
 const root = __dirname;
 const staticFiles = new Map([
   ['/', 'index.html'], ['/index.html', 'index.html'], ['/app.js', 'app.js'], ['/style.css', 'style.css'],
@@ -24,9 +25,10 @@ function createServer(store, options = {}) {
     res.setHeader('X-Content-Type-Options','nosniff');
     res.setHeader('X-Frame-Options','DENY');
     const host = req.headers.host;
-    const allowedHosts = [`127.0.0.1:${req.socket.localPort}`, `localhost:${req.socket.localPort}`, `[::1]:${req.socket.localPort}`];
-    if (!allowedHosts.includes(host)) return json(res, 403, { error: 'Host no autorizado.' });
-    if (req.headers.origin && req.headers.origin !== `http://${host}`) return json(res, 403, { error: 'Origen no autorizado.' });
+    const origins=options.origins||[`http://127.0.0.1:${req.socket.localPort}`,`http://localhost:${req.socket.localPort}`,`http://[::1]:${req.socket.localPort}`];
+    const ownOrigin=origins.find(origin=>new URL(origin).host===host);
+    if(!ownOrigin)return json(res,403,{error:'Host no autorizado.'});
+    if(req.headers.origin && req.headers.origin!==ownOrigin)return json(res,403,{error:'Origen no autorizado.'});
     let pathname;
     try { pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname); }
     catch { return json(res, 400, { error: 'Ruta inválida.' }); }
@@ -51,15 +53,9 @@ function createServer(store, options = {}) {
       if (req.method !== 'PUT') return json(res, 405, { error: 'Método no permitido.' });
       if (req.headers['content-type']?.split(';')[0] !== 'application/json') return json(res, 415, { error: 'Se requiere JSON.' });
       try {
-        const chunks = []; let bytes = 0;
-        for await (const chunk of req) {
-          bytes += chunk.length;
-          if (bytes > 5 * 1024 * 1024) throw new DataError('La solicitud supera el límite de 5 MB.', 413);
-          chunks.push(chunk);
-        }
         let input;
-        try { input = JSON.parse(Buffer.concat(chunks).toString('utf8')); }
-        catch { throw new DataError('JSON inválido.'); }
+        try { input=await readJsonBody(req,5*1024*1024);if(!input||typeof input!=='object'||Array.isArray(input))throw Error(); }
+        catch(error) { throw new DataError('JSON inválido o demasiado grande.',error.status||400); }
         if (!Number.isSafeInteger(input.revision) || input.revision < 0) throw new DataError('Versión de datos inválida.');
         return json(res, 200, await store.write(input.data, input.revision));
       } catch (error) {

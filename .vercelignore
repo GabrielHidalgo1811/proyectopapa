@@ -1,0 +1,9 @@
+.git
+.openai
+data
+node_modules
+.env
+.env.*
+supabase/.env*
+database/*.test.cjs
+mail/*.test.mjs

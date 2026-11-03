@@ -1,5 +1,9 @@
 # Acceso a Antonini
 
+## Vercel
+
+En Vercel se usan sesiones persistentes en Supabase, con el SQL `database/09_sesiones_vercel.sql`. No se escribe SQLite en las funciones. Los detalles del despliegue, dominios HTTPS y las siete variables requeridas están en `VERCEL.md`. Las instrucciones sobre archivos SQLite y claves locales que siguen se aplican solo al servidor local.
+
 ## Primera cuenta
 
 El 3 de noviembre de 2026 se comprobó que Authentication no tenía usuarios en este proyecto. La cuenta del dashboard de Supabase no crea una cuenta de acceso a la aplicación.
