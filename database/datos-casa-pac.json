@@ -1,0 +1,219 @@
+{
+  "people": [
+    {
+      "id": "C-PAC-01",
+      "name": "Yoiber Perez",
+      "phone": "",
+      "email": "",
+      "roles": [
+        "tenant"
+      ]
+    },
+    {
+      "id": "C-PAC-02",
+      "name": "Britney",
+      "phone": "",
+      "email": "",
+      "roles": [
+        "tenant"
+      ]
+    },
+    {
+      "id": "C-PAC-03",
+      "name": "Roger Serna",
+      "phone": "",
+      "email": "",
+      "roles": [
+        "tenant"
+      ]
+    },
+    {
+      "id": "C-PAC-04",
+      "name": "Laura Contreras",
+      "phone": "",
+      "email": "",
+      "roles": [
+        "tenant"
+      ]
+    },
+    {
+      "id": "C-PAC-05",
+      "name": "Javier Sepulveda",
+      "phone": "",
+      "email": "",
+      "roles": [
+        "tenant"
+      ]
+    },
+    {
+      "id": "C-PAC-06",
+      "name": "Jeff Fleurancin",
+      "phone": "",
+      "email": "",
+      "roles": [
+        "tenant"
+      ]
+    },
+    {
+      "id": "C-PAC-07",
+      "name": "Jose David",
+      "phone": "",
+      "email": "",
+      "roles": [
+        "tenant"
+      ]
+    },
+    {
+      "id": "C-PAC-08",
+      "name": "Massinio Pierre",
+      "phone": "",
+      "email": "",
+      "roles": [
+        "tenant"
+      ]
+    },
+    {
+      "id": "C-PAC-09",
+      "name": "Duvelis",
+      "phone": "",
+      "email": "",
+      "roles": [
+        "tenant"
+      ]
+    }
+  ],
+  "rooms": [
+    {
+      "id": "I-PAC-01",
+      "name": "Habitación 01",
+      "property": "Casa PAC",
+      "person": "C-PAC-01",
+      "amount": 170000,
+      "day": null,
+      "deposit": 0,
+      "state": "ocupada",
+      "services": []
+    },
+    {
+      "id": "I-PAC-02",
+      "name": "Habitación 02",
+      "property": "Casa PAC",
+      "person": "C-PAC-02",
+      "amount": 200000,
+      "day": null,
+      "deposit": 0,
+      "state": "ocupada",
+      "services": []
+    },
+    {
+      "id": "I-PAC-03",
+      "name": "Habitación 03",
+      "property": "Casa PAC",
+      "person": "C-PAC-03",
+      "amount": 190000,
+      "day": null,
+      "deposit": 0,
+      "state": "ocupada",
+      "services": []
+    },
+    {
+      "id": "I-PAC-04",
+      "name": "Habitación 04",
+      "property": "Casa PAC",
+      "person": "C-PAC-04",
+      "amount": 180000,
+      "day": null,
+      "deposit": 0,
+      "state": "ocupada",
+      "services": []
+    },
+    {
+      "id": "I-PAC-05",
+      "name": "Habitación 05",
+      "property": "Casa PAC",
+      "person": "C-PAC-05",
+      "amount": 160000,
+      "day": null,
+      "deposit": 0,
+      "state": "ocupada",
+      "services": []
+    },
+    {
+      "id": "I-PAC-06",
+      "name": "Habitación 06",
+      "property": "Casa PAC",
+      "person": "C-PAC-06",
+      "amount": 160000,
+      "day": null,
+      "deposit": 0,
+      "state": "ocupada",
+      "services": []
+    },
+    {
+      "id": "I-PAC-07",
+      "name": "Anexo 07",
+      "property": "Casa PAC",
+      "person": "C-PAC-07",
+      "amount": 260000,
+      "day": null,
+      "deposit": 0,
+      "state": "ocupada",
+      "services": []
+    },
+    {
+      "id": "I-PAC-08",
+      "name": "Habitación 08",
+      "property": "Casa PAC",
+      "person": "C-PAC-08",
+      "amount": 230000,
+      "day": null,
+      "deposit": 0,
+      "state": "ocupada",
+      "services": []
+    },
+    {
+      "id": "I-PAC-09",
+      "name": "Habitación 09",
+      "property": "Casa PAC",
+      "person": "C-PAC-09",
+      "amount": 210000,
+      "day": null,
+      "deposit": 0,
+      "state": "ocupada",
+      "services": []
+    },
+    {
+      "id": "I-PAC-10",
+      "name": "Habitación 10",
+      "property": "Casa PAC",
+      "person": null,
+      "amount": 230000,
+      "day": null,
+      "deposit": 0,
+      "state": "en_construccion",
+      "services": []
+    },
+    {
+      "id": "I-PAC-11",
+      "name": "Habitación 11",
+      "property": "Casa PAC",
+      "person": null,
+      "amount": 230000,
+      "day": null,
+      "deposit": 0,
+      "state": "en_construccion",
+      "services": []
+    },
+    {
+      "id": "I-PAC-12",
+      "name": "Anexo 12",
+      "property": "Casa PAC",
+      "person": null,
+      "amount": 240000,
+      "day": null,
+      "deposit": 0,
+      "state": "disponible",
+      "services": []
+    }
+  ]
+}

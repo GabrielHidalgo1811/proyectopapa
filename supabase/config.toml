@@ -1,0 +1,4 @@
+project_id = "antonini"
+
+[functions.enviar-correos]
+verify_jwt = false

@@ -1,0 +1,16 @@
+{
+  "name": "antonini",
+  "private": true,
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "start": "node server.cjs",
+    "test": "node --test database/*.test.cjs mail/*.test.mjs",
+    "build:email-editor": "node scripts/build-email-editor.cjs"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.12"
+  }
+}
